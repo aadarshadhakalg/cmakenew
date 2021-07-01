@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' as io;
 import 'package:cmakenew/cmake_util.dart';
 import 'package:cmakenew/cmakenew.dart';
 import 'package:cmakenew/commands/create.command.dart';
@@ -18,7 +18,7 @@ void main(List<String> arguments) async {
       negatable: false, callback: (val) {
     if (val) {
       _logger.info(
-      green.wrap('''
+        green.wrap('''
 +-----------------------------------------------------------+
 |               Welcome to the Cmake New CLI!               |
 +-----------------------------------------------------------+
@@ -26,8 +26,8 @@ void main(List<String> arguments) async {
 | Author's Profile: https://github.com/aadarshadhakalg      |
 | Project Link: https://github.com/aadarshadhakalg/cmakenew |
 +-----------------------------------------------------------+\n'''),
-    );
-      exit(ExitCode.usage.code);
+      );
+      io.exit(ExitCode.usage.code);
     }
   });
 
@@ -38,7 +38,7 @@ void main(List<String> arguments) async {
     if (val) {
       var cmakeCheck =
           _logger.progress(yellow.wrap('Checking CMAKE in the system')!);
-      if (await CMakeUtil().cmakeInstalled()) {
+      if ( CMakeUtil().cmakeInstalled()) {
         cmakeCheck(green.wrap('Found CMAKE'));
       } else {
         cmakeCheck();
@@ -47,12 +47,13 @@ void main(List<String> arguments) async {
 
       var cmakeNewCheck =
           _logger.progress(yellow.wrap('Looking for CMAKENEW')!);
-      if (await CMakeUtil().cmakeNewOnPath()) {
+      if ( CMakeUtil().cmakeNewOnPath()) {
         cmakeNewCheck(green.wrap('CMAKENEW is on path'));
       } else {
         cmakeNewCheck();
         _logger.err('CMAKENEW is not on the path.');
       }
+      io.exit(ExitCode.usage.code);
     }
   });
 

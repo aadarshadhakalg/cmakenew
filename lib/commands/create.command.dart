@@ -17,7 +17,7 @@ class CreateCommand extends Command {
 
   CreateCommand() {
     argParser.addOption('project-name',
-        help: 'Name of the project', mandatory: true);
+        help: 'Name of the project', mandatory: false);
     argParser.addOption('cmake-version',
         help: 'Cmake version to use in the project');
     argParser.addOption(
@@ -40,7 +40,7 @@ class CreateCommand extends Command {
       _generatorTarget,
       vars: {
         'version': argResults?['cmake-version'] ?? '3.10',
-        'projectname': argResults?['project-name'],
+        'projectname': argResults?['project-name'] ?? argResults?.arguments[0],
       },
     );
 
@@ -48,9 +48,9 @@ class CreateCommand extends Command {
     var _cmakeRun =
         _logger.progress('Runing cmake on ${_generatorTarget.dir}/build/');
 
-    if (await _cmakeUtil.cmakeInstalled()) {
+    if ( _cmakeUtil.cmakeInstalled()) {
       if (await _cmakeUtil.cmakeGenerate(
-        path.join(path.current, '${argResults?['project-name']}', 'build'),
+        path.join(path.current, '${argResults?['project-name'] ?? argResults?.arguments[0]}', 'build'),
       )) {
         _cmakeRun('Project Created Successfully!');
       } else {

@@ -2,10 +2,8 @@ import 'package:cmakenew/cmake_util.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('check cmake installed check', () async {
-
+  test('check cmake installed check', () {
     var cMakeUtil = CMakeUtil();
-    expect(await cMakeUtil.cmakeInstalled(), true);    
-
+    expect(cMakeUtil.cmakeInstalled(), true);
   });
 }

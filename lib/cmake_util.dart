@@ -6,9 +6,9 @@ class CMakeUtil {
 
   final _logger = Logger();
 
-  Future<bool> cmakeInstalled() async {
+  bool cmakeInstalled()  {
     try{
-    var result = await Process.run('cmake', ['--version']);
+    var result =  Process.runSync('cmake', ['--version']);
 
     if (result.exitCode == ExitCode.success.code) {
       return true;
@@ -41,9 +41,9 @@ class CMakeUtil {
     }
   }
 
-  Future<bool> cmakeNewOnPath() async {
+  bool cmakeNewOnPath() {
     try{
-    var result = await Process.run('cmakenew',[]);
+    var result =  Process.runSync('cmakenew',[]);
 
     if (result.exitCode == ExitCode.success.code) {
       return true;

@@ -15,6 +15,7 @@ class CMakeNewCommandRunner extends CommandRunner {
     try {
       final _argResults = parse(args);
       return await runCommand(_argResults) ?? ExitCode.success.code;
+      
     } on FormatException catch (e, stackTrace) {
       _logger
         ..err(e.message)
