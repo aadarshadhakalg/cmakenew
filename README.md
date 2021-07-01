@@ -14,7 +14,7 @@ sudo apt install wget && wget https://raw.githubusercontent.com/aadarshadhakalg/
 
 ### Windows
 
-1. Download Executable from (here)[https://raw.githubusercontent.com/aadarshadhakalg/cmakenew/master/downloads/windows/cmakenew.exe]
+1. Download Executable from [here](https://raw.githubusercontent.com/aadarshadhakalg/cmakenew/master/downloads/windows/cmakenew.exe)
 2. Copy the executable file to C:\cmaketools\cmaketools.exe
 3. Update your path
   - Open the Start Search, type in “env”, and choose “Edit the system environment variables”
