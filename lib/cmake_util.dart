@@ -8,7 +8,7 @@ class CMakeUtil {
 
   bool cmakeInstalled()  {
     try{
-    var result =  Process.runSync('cmake', ['--version']);
+    var result = Process.runSync('cmake', ['--version']) ;
 
     if (result.exitCode == ExitCode.success.code) {
       return true;
@@ -23,7 +23,7 @@ class CMakeUtil {
     
     try{
     var _result = await Process.run(
-      'cmake',
+     Platform.isLinux ? 'cmake' : 'cmake -G "MinGW Makefiles"',
       ['..'],
       workingDirectory: path,
     );

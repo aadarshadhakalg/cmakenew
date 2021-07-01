@@ -46,7 +46,7 @@ class CreateCommand extends Command {
 
     logBootstrap('Project Files Generated');
     var _cmakeRun =
-        _logger.progress('Runing cmake on ${_generatorTarget.dir}/build/');
+        _logger.progress('Runing cmake on ${_generatorTarget.dir}');
 
     if ( _cmakeUtil.cmakeInstalled()) {
       if (await _cmakeUtil.cmakeGenerate(
