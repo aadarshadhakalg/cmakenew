@@ -1,15 +1,13 @@
 import 'dart:io';
 import 'package:args/command_runner.dart';
-import 'package:cmakenew/cmakenew.dart';
+import 'package:cmakenew/cmake_util.dart';
 import 'package:cmakenew/templates/cmakeproject_bundle.dart';
 import 'package:mason/mason.dart';
 import 'package:path/path.dart' as path;
 
 class CreateCommand extends Command {
   final _logger = Logger();
-
-  @override
-  CommandRunner? get runner => CMakeNewCommandRunner(name,description);
+  final _cmakeUtil = CMakeUtil();
 
   @override
   String get description => 'Creates new cmake project';
@@ -20,7 +18,8 @@ class CreateCommand extends Command {
   CreateCommand() {
     argParser.addOption('project-name',
         help: 'Name of the project', mandatory: true);
-    argParser.addOption('cmake-version',help: 'Cmake version to use in the project');
+    argParser.addOption('cmake-version',
+        help: 'Cmake version to use in the project');
     argParser.addOption(
       'device',
       abbr: 'd',
@@ -45,7 +44,23 @@ class CreateCommand extends Command {
       },
     );
 
-    logBootstrap();
-    _logger.success('Project Generated Syccessfully');
+    logBootstrap('Project Files Generated');
+    var _cmakeRun =
+        _logger.progress('Runing cmake on ${_generatorTarget.dir}/build/');
+
+    if (await _cmakeUtil.cmakeInstalled()) {
+      if (await _cmakeUtil.cmakeGenerate(
+        path.join(path.current, '${argResults?['project-name']}', 'build'),
+      )) {
+        _cmakeRun('Project Created Successfully!');
+      } else {
+        _cmakeRun.call();
+        _logger.err(
+            'Cmake Error! Please make sure cmake version ${argResults?['cmake-version'] ?? "3.10"} is installed and is on system path!');
+      }
+    } else {
+      _logger.err(
+          'Cmake Error! Please make sure cmake is installed and is on system path!');
+    }
   }
 }
