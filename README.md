@@ -5,14 +5,14 @@ A command line utility to bootstrap simple cmake project.
 
 ### Linux
 
-**Download ```script.sh``` and Run this command**
 
+**Download ```script.sh``` and Run this command**
 ```
 ./script.sh
 
 ```
 
-### Windows
+### Windows:
 
 1. Download Executable from [here](https://raw.githubusercontent.com/aadarshadhakalg/cmakenew/master/downloads/windows/cmakenew.exe)
 2. Copy the executable file to C:\cmaketools\cmaketools.exe
@@ -23,7 +23,7 @@ A command line utility to bootstrap simple cmake project.
   - Now, you can click “New” and type ```C:\cmaketools\```. 
   - Dismiss all of the dialogs by choosing “OK”. Your changes are saved!  
 
-## Usage
+## Usage:
 ```
 Create a new project
 
