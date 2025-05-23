@@ -1,10 +1,9 @@
 import 'dart:io';
-import 'package:io/io.dart';
 import 'package:mason/mason.dart';
 
 class CMakeUtil {
 
-  final _logger = Logger();
+  final logger = Logger();
 
   bool cmakeInstalled()  {
     try{
@@ -22,21 +21,30 @@ class CMakeUtil {
   Future<bool> cmakeGenerate(String path) async {
     
     try{
-    var _result = await Process.run(
-     Platform.isLinux ? 'cmake' : 'cmake -G "MinGW Makefiles"',
-      ['..'],
+    String executable = 'cmake';
+    List<String> arguments;
+
+    if (Platform.isWindows) {
+      arguments = ['-G', 'MinGW Makefiles', '..'];
+    } else { // For Linux, macOS, and other platforms
+      arguments = ['..'];
+    }
+
+    var result = await Process.run(
+      executable,
+      arguments,
       workingDirectory: path,
     );
 
-    if (_result.exitCode != ExitCode.success.code) {
-      _logger.err(_result.stderr);
+    if (result.exitCode != ExitCode.success.code) {
+      logger.err(result.stderr);
       return false;
     } else {
-      _logger.info(_result.stdout);
+      logger.info(result.stdout);
       return true;
     }
     }catch(e){
-      _logger.err(e.toString());
+      logger.err(e.toString());
       return false;
     }
   }

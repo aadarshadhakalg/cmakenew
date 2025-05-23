@@ -6,8 +6,8 @@ import 'package:mason/mason.dart';
 import 'package:path/path.dart' as path;
 
 class CreateCommand extends Command {
-  final _logger = Logger();
-  final _cmakeUtil = CMakeUtil();
+  final logger = Logger();
+  final cmakeUtil = CMakeUtil();
 
   @override
   String get description => 'Creates new cmake project';
@@ -31,36 +31,36 @@ class CreateCommand extends Command {
 
   @override
   Future<void> run() async {
-    var logBootstrap = _logger.progress('Bootstrapping...');
+    final logBootstrap = logger.progress('Bootstrapping...');
 
     var generator = await MasonGenerator.fromBundle(cmakeprojectBundle);
-    var _generatorTarget =
-        DirectoryGeneratorTarget(Directory('${path.current}'), _logger);
+    var generatorTarget =
+        DirectoryGeneratorTarget(Directory(path.current), logger: logger);
     await generator.generate(
-      _generatorTarget,
+      generatorTarget,
       vars: {
         'version': argResults?['cmake-version'] ?? '3.10',
         'projectname': argResults?['project-name'] ?? argResults?.arguments[0],
       },
     );
 
-    logBootstrap('Project Files Generated');
-    var _cmakeRun =
-        _logger.progress('Runing cmake on ${_generatorTarget.dir}');
+    logBootstrap.complete('Project Files Generated');
+    final cmakeRun =
+        logger.progress('Running cmake on ${generatorTarget.dir.path}');
 
-    if ( _cmakeUtil.cmakeInstalled()) {
-      if (await _cmakeUtil.cmakeGenerate(
+    if ( cmakeUtil.cmakeInstalled()) {
+      if (await cmakeUtil.cmakeGenerate(
         path.join(path.current, '${argResults?['project-name'] ?? argResults?.arguments[0]}', 'build'),
       )) {
-        _cmakeRun('Project Created Successfully!');
+        cmakeRun.complete('Project Created Successfully!');
       } else {
-        _cmakeRun.call();
-        _logger.err(
-            'Cmake Error! Please make sure cmake version ${argResults?['cmake-version'] ?? "3.10"} is installed and is on system path!');
+        cmakeRun.fail();
+        logger.err(
+            'CMake Error! Please make sure cmake version ${argResults?['cmake-version'] ?? "3.10"} is installed and is on system path!');
       }
     } else {
-      _logger.err(
-          'Cmake Error! Please make sure cmake is installed and is on system path!');
+      logger.err(
+          'CMake Error! Please make sure cmake is installed and is on system path!');
     }
   }
 }

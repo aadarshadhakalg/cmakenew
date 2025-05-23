@@ -2,12 +2,10 @@ import 'dart:io' as io;
 import 'package:cmakenew/cmake_util.dart';
 import 'package:cmakenew/cmakenew.dart';
 import 'package:cmakenew/commands/create.command.dart';
-import 'package:io/ansi.dart';
-import 'package:io/io.dart';
-import 'package:mason/mason.dart';
+import 'package:mason/mason.dart'; // Imports ansi and io from mason_logger
 
 void main(List<String> arguments) async {
-  final _logger = Logger();
+  final logger = Logger();
 
   var runner = CMakeNewCommandRunner('cmakenew', 'Create a new project')
     ..addCommand(CreateCommand());
@@ -17,7 +15,7 @@ void main(List<String> arguments) async {
       help: 'Shows Developer Info',
       negatable: false, callback: (val) {
     if (val) {
-      _logger.info(
+      logger.info(
         green.wrap('''
 +-----------------------------------------------------------+
 |               Welcome to the Cmake New CLI!               |
@@ -37,21 +35,21 @@ void main(List<String> arguments) async {
       negatable: false, callback: (val) async {
     if (val) {
       var cmakeCheck =
-          _logger.progress(yellow.wrap('Checking CMAKE in the system')!);
+          logger.progress(yellow.wrap('Checking CMAKE in the system') ?? 'Checking CMAKE...');
       if ( CMakeUtil().cmakeInstalled()) {
-        cmakeCheck(green.wrap('Found CMAKE'));
+        cmakeCheck.complete(green.wrap('Found CMAKE'));
       } else {
-        cmakeCheck();
-        _logger.err('CMAKE NOT FOUND');
+        cmakeCheck.fail();
+        logger.err('CMAKE NOT FOUND');
       }
 
       var cmakeNewCheck =
-          _logger.progress(yellow.wrap('Looking for CMAKENEW')!);
+          logger.progress(yellow.wrap('Looking for CMAKENEW') ?? 'Looking for CMAKENEW...');
       if ( CMakeUtil().cmakeNewOnPath()) {
-        cmakeNewCheck(green.wrap('CMAKENEW is on path'));
+        cmakeNewCheck.complete(green.wrap('CMAKENEW is on path'));
       } else {
-        cmakeNewCheck();
-        _logger.err('CMAKENEW is not on the path.');
+        cmakeNewCheck.fail();
+        logger.err('CMAKENEW is not on the path.');
       }
       io.exit(ExitCode.usage.code);
     }

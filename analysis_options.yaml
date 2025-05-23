@@ -1,10 +1,10 @@
-# Defines a default set of lint rules enforced for projects at Google. For
-# details and rationale, see
-# https://github.com/dart-lang/pedantic#enabled-lints.
+# Defines a default set of lint rules.
+# For details and rationale, see https://dart.dev/lints.
+#
+# For a list of available lints, see
+# https://dart-lang.github.io/linter/lints/options/options.html
 
-include: package:pedantic/analysis_options.yaml
-
-# For lint rules and documentation, see http://dart-lang.github.io/linter/lints.
+include: package:lints/recommended.yaml
 
 # Uncomment to specify additional rules.
 # linter:
