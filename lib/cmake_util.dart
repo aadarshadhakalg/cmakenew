@@ -21,9 +21,18 @@ class CMakeUtil {
   Future<bool> cmakeGenerate(String path) async {
     
     try{
+    String executable = 'cmake';
+    List<String> arguments;
+
+    if (Platform.isWindows) {
+      arguments = ['-G', 'MinGW Makefiles', '..'];
+    } else { // For Linux, macOS, and other platforms
+      arguments = ['..'];
+    }
+
     var result = await Process.run(
-     Platform.isLinux ? 'cmake' : 'cmake -G "MinGW Makefiles"',
-      ['..'],
+      executable,
+      arguments,
       workingDirectory: path,
     );
 

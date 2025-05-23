@@ -56,11 +56,11 @@ class CreateCommand extends Command {
       } else {
         cmakeRun.fail();
         logger.err(
-            'Cmake Error! Please make sure cmake version ${argResults?['cmake-version'] ?? "3.10"} is installed and is on system path!');
+            'CMake Error! Please make sure cmake version ${argResults?['cmake-version'] ?? "3.10"} is installed and is on system path!');
       }
     } else {
       logger.err(
-          'Cmake Error! Please make sure cmake is installed and is on system path!');
+          'CMake Error! Please make sure cmake is installed and is on system path!');
     }
   }
 }
